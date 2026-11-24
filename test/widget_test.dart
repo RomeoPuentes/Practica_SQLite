@@ -41,4 +41,15 @@ void main() {
     tareas = await database.select(database.tareas).get();
     expect(tareas, isEmpty);
   });
+
+  test('Una tarea nueva se crea como no completada', () async {
+    final id = await database.insertarTarea('Nueva tarea');
+
+    final tareas = await database.select(database.tareas).get();
+
+    expect(id, greaterThan(0));
+    expect(tareas.length, 1);
+    expect(tareas.first.titulo, 'Nueva tarea');
+    expect(tareas.first.completada, false);
+  });
 }
